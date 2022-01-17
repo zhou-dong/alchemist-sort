@@ -1,13 +1,41 @@
 import React from 'react';
 import * as THREE from 'three';
 
+class Cube extends THREE.Mesh {
+
+    constructor() {
+        const geometry = new THREE.BoxGeometry();
+        const material = new THREE.MeshBasicMaterial();
+        super(geometry, material)
+    }
+
+    color(color: THREE.ColorRepresentation): Cube {
+        (this.material as THREE.MeshBasicMaterial).color.set(color);
+        return this;
+    }
+
+    width(width: number): Cube {
+        this.scale.setX(width);
+        return this;
+    }
+
+    height(height: number): Cube {
+        this.scale.setY(height);
+        return this;
+    }
+
+    depth(depth: number): Cube {
+        this.scale.setZ(depth);
+        return this;
+    }
+}
+
 // color along with size
 const scene = new THREE.Scene();
 const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
 
-const geometry = new THREE.BoxGeometry();
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 });
-const cube = new THREE.Mesh(geometry, material);
+const cube = new Cube().color('red');
+
 scene.add(cube);
 
 camera.position.z = 5;
