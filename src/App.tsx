@@ -21,10 +21,7 @@ const Nav = () => (
 function Home() {
   const scene = new THREE.Scene();
   render(scene);
-  return (
-    <>
-    </>
-  );
+  return (<></>);
 }
 
 function App() {
