@@ -23,10 +23,12 @@ interface HomeParams {
 }
 
 function Home({ setScene }: HomeParams) {
-  const scene = new THREE.Scene();
+
   React.useEffect(() => {
+    const scene = new THREE.Scene();
     setScene(scene);
-  }, [])
+
+  }, [setScene])
   return (<></>);
 }
 
