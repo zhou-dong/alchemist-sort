@@ -42,11 +42,7 @@ function Bubble() {
         }
     }, [ref]);
 
-    return (
-        <>
-            <div ref={ref}></div>
-        </>
-    );
+    return (<div ref={ref}></div>);
 }
 
 export default Bubble;

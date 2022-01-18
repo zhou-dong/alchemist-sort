@@ -6,7 +6,7 @@ import Bubble from './sorts/Bubble';
 
 const Header = () => (
   <header className='header'>
-    <Link className='home' to="/">Home</Link>
+    <Link className='home' to="/">Alchemist</Link>
   </header>
 );
 
