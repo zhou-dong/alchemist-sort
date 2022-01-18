@@ -26,7 +26,7 @@ function Bubble({ setScene }: Params) {
 
     React.useEffect(() => {
         setScene(scene);
-    }, [scene, setScene])
+    }, [setScene])
 
     return (<div></div>);
 }
