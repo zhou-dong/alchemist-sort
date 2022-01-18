@@ -34,13 +34,8 @@ function Bubble() {
     const cube = new Cube().setColor('green');
     scene.add(cube);
 
-    console.log(cube);
-
     React.useEffect(() => {
         if (ref && ref.current) {
-
-
-
             ref.current.appendChild(renderer.domElement);
         }
     }, [ref]);
