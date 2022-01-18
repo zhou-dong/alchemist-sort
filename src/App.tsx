@@ -18,9 +18,15 @@ const Nav = () => (
   </nav>
 );
 
-function Home() {
+interface HomeParams {
+  setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>
+}
+
+function Home({ setScene }: HomeParams) {
   const scene = new THREE.Scene();
-  render(scene);
+  React.useEffect(() => {
+    setScene(scene);
+  }, [])
   return (<></>);
 }
 
@@ -47,7 +53,7 @@ function App() {
       <Header />
       <div ref={ref}></div>
       <Routes>
-        <Route path="/" element={<Home />} />
+        <Route path="/" element={<Home setScene={setScene} />} />
         <Route path="/bubble" element={<Bubble setScene={setScene} />} />
       </Routes>
       <Nav />
