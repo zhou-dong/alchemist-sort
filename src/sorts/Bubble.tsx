@@ -12,8 +12,6 @@ const colors = generateColor("#9FE2BF", "#40E0D0", size);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 for (let i = 0; i < size; i++) {
-    console.log("bubble", i);
-
     const cube = new Cube()
         .setColor(colors[i])
         .setWidth(1)
