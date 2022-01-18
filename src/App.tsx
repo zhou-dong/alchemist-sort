@@ -37,13 +37,23 @@ function App() {
     }
   }, [ref]);
 
+  const [scene, setScene] = React.useState<THREE.Scene>();
+
+  function animate() {
+    requestAnimationFrame(animate);
+    if (scene) {
+      render(scene);
+    }
+  };
+  animate();
+
   return (
     <div className="App">
       <Header />
       <div ref={ref}></div>
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/bubble" element={<Bubble />} />
+        <Route path="/bubble" element={<Bubble setScene={setScene} />} />
       </Routes>
       <Nav />
     </div>
