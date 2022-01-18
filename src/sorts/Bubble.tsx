@@ -11,7 +11,7 @@ function Bubble({ setScene }: Params) {
 
     const size = 5;
     const colors = generateColor("#9FE2BF", "#40E0D0", size);
-    const scene = new THREE.Scene();
+    const scene = React.useMemo(() => new THREE.Scene(), []);
 
     for (let i = 0; i < size; i++) {
         const cube = new Cube()
@@ -24,7 +24,7 @@ function Bubble({ setScene }: Params) {
 
     React.useEffect(() => {
         setScene(scene);
-    }, [])
+    }, [scene, setScene])
 
     return (<div></div>);
 }
