@@ -2,45 +2,36 @@ import React from 'react';
 import * as THREE from 'three';
 import Cube from '../models/cube';
 
+import { render } from '../utils/render';
+
 // color along with size
-const scene = new THREE.Scene();
 
-const camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
-camera.position.z = 5;
-
-const renderer = new THREE.WebGLRenderer({ alpha: true });
-renderer.setSize(window.innerWidth, window.innerHeight);
-renderer.setClearColor('purple', 0.1);
-
-function animate() {
-    requestAnimationFrame(animate);
-    // cube.rotation.x += 0.01;
-    // cube.rotation.y += 0.01;
-    renderer.render(scene, camera);
-};
-animate();
-
-function onWindowResize() {
-    camera.aspect = window.innerWidth / window.innerHeight;
-    camera.updateProjectionMatrix();
-    renderer.setSize(window.innerWidth, window.innerHeight);
-}
-
-window.addEventListener('resize', onWindowResize, false);
+// function animate() {
+//     requestAnimationFrame(animate);
+//     renderer.render(scene, camera);
+// };
+// animate();
 
 function Bubble() {
 
-    const ref = React.useRef<HTMLDivElement>(null);
-    const cube = new Cube().setColor('green');
-    scene.add(cube);
+    const scene = new THREE.Scene();
 
-    React.useEffect(() => {
-        if (ref && ref.current) {
-            ref.current.appendChild(renderer.domElement);
-        }
-    }, [ref]);
+    const size = 5;
 
-    return (<div ref={ref}></div>);
+    for (let i = 0; i < size; i++) {
+        const cube = new Cube()
+            .setColor('green')
+            .setWidth(1)
+            .setHeight((i + 1) * 1)
+            ;
+
+        cube.position.setX(i - 5 + 1 * i);
+        scene.add(cube);
+    }
+
+    render(scene);
+
+    return (<div></div>);
 }
 
 export default Bubble;
