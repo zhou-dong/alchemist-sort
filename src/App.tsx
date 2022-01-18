@@ -38,9 +38,7 @@ function App() {
 
   function animate() {
     requestAnimationFrame(animate);
-    if (scene) {
-      render(scene);
-    }
+    if (scene) { render(scene) }
   };
   animate();
 
