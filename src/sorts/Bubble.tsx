@@ -4,7 +4,7 @@ import Cube from '../models/cube';
 import { generateColor } from '../utils/color';
 
 interface Params {
-    setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>
+    setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
 }
 
 function Bubble({ setScene }: Params) {
