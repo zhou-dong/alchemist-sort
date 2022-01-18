@@ -27,7 +27,6 @@ function Home({ setScene }: HomeParams) {
   React.useEffect(() => {
     const scene = new THREE.Scene();
     setScene(scene);
-
   }, [setScene])
   return (<></>);
 }
