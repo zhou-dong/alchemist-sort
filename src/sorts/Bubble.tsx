@@ -17,6 +17,7 @@ for (let i = 0; i < size; i++) {
         .setWidth(1)
         .setHeight((i + 1) * 1);
     cube.position.setX(i - 5 + 1 * i);
+
     scene.add(cube);
 }
 
