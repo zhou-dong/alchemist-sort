@@ -17,14 +17,35 @@ function onWindowResize() {
 window.addEventListener('resize', onWindowResize, false);
 
 const controls = new OrbitControls(camera, renderer.domElement);
+controls.enableDamping = true
 controls.rotateSpeed = 0.5;
 controls.minDistance = 10;
 controls.maxDistance = 100;
 controls.update();
-// controls.addEventListener('change', () => render(scene));
 
 function render(scene: THREE.Scene) {
     renderer.render(scene, camera);
 }
 
-export { renderer, render };
+// Raycaster, which implement on-click
+const mouse = new THREE.Vector2(1, 1);
+
+function onMouseDown(event: MouseEvent) {
+    mouse.x = (event.clientX / window.innerWidth) * 2 - 1;
+    mouse.y = - (event.clientY / window.innerHeight) * 2 + 1;
+}
+
+window.addEventListener('mousedown', onMouseDown, false);
+
+const raycaster = new THREE.Raycaster();
+
+function refreshRaycaster() {
+    raycaster.setFromCamera(mouse, camera);
+}
+
+function clearIntersection() {
+    mouse.x = Number.MAX_VALUE;
+    mouse.y = Number.MAX_VALUE;
+}
+
+export { clearIntersection, raycaster, renderer, render, refreshRaycaster };
