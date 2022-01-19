@@ -4,7 +4,7 @@ import './App.css';
 import { Link, Route, Routes } from 'react-router-dom';
 
 import Bubble from './sorts/Bubble';
-import { render, renderer } from './utils/render';
+import { clearIntersection, raycaster, render, renderer, refreshRaycaster } from './utils/render';
 
 const Header = () => (
   <header className='header'>
@@ -22,13 +22,11 @@ interface HomeParams {
   setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>
 }
 
+const homeScene = new THREE.Scene();
 function Home({ setScene }: HomeParams) {
-
   React.useEffect(() => {
-    const scene = new THREE.Scene();
-    setScene(scene);
-  }, [setScene])
-
+    setScene(homeScene);
+  }, [])
   return (<></>);
 }
 
@@ -46,8 +44,24 @@ function App() {
 
   function animate() {
     requestAnimationFrame(animate);
-    if (scene) { render(scene) }
+
+    if (scene) {
+      refreshRaycaster();
+      const intersects = raycaster.intersectObjects(scene.children);
+
+      for (let i = 0; i < intersects.length; i++) {
+        const intersect = intersects[i];
+        (intersect.object as any).material.color.set("red");
+      }
+
+      if (intersects.length > 0) {
+        clearIntersection();
+      }
+
+      render(scene);
+    }
   };
+
   animate();
 
   return (
