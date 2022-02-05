@@ -10,7 +10,7 @@ interface Params {
 }
 
 const size = 5;
-const colors = generateColor("#9FE2BF", "#40E0D0", size);
+const colors = generateColor("#659157", "#A1C084", size);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 const cubes: Cube[] = [];
