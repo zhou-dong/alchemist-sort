@@ -17,10 +17,7 @@ const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 const cubes: Cube[] = [];
 
 for (let i = 0; i < size; i++) {
-    const cube = new Cube()
-        .setColor(colors[i])
-        .setWidth(1)
-        .setHeight((i + 1) * 1);
+    const cube = new Cube().setColor(colors[i]).setWidth(1).setHeight((i + 1) * 1);
     cube.position.setX(i - 5 + 1 * i);
     cubes[i] = cube;
     scene.add(cube);
