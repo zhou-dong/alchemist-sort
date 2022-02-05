@@ -3,7 +3,6 @@ import * as THREE from 'three';
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
 import Cube from '../models/cube';
 import { generateColor } from '../utils/color';
-
 import { camera, renderer } from '../utils/render';
 
 interface Params {
