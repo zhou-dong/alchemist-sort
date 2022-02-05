@@ -42,7 +42,7 @@ controls.addEventListener("drag", function (event) {
     others.map(other => {
         if (current.isCollison(other)) {
             (other.material as any).opacity = 0.4;
-            collidedCube = (other as any);
+            collidedCube = other as Cube;
         }
     });
 
