@@ -51,7 +51,7 @@ function App() {
 
       for (let i = 0; i < intersects.length; i++) {
         const intersect = intersects[i];
-        (intersect.object as any).material.color.set("red");
+        // (intersect.object as any).material.color.set("red");
       }
 
       if (intersects.length > 0) {
