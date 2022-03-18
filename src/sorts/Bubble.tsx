@@ -4,6 +4,7 @@ import { DragControls } from 'three/examples/jsm/controls/DragControls'
 import Cube from '../models/cube';
 import { generateColor } from '../utils/color';
 import { camera, renderer } from '../utils/render';
+import { sort } from './algo';
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -20,9 +21,9 @@ function getRandomInt(max: number) {
 }
 
 for (let i = 0; i < nums; i++) {
-    const size = getRandomInt(10);
+    const size = getRandomInt(6);
     const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
-    cube.position.setX(i - 5 + 1 * i);
+    cube.position.setX(i - 4 + 1 * i);
     cubes[i] = cube;
     scene.add(cube);
 }
@@ -76,8 +77,19 @@ controls.addEventListener('dragend', function (event) {
 });
 
 function Bubble({ setScene }: Params) {
-    React.useEffect(() => { setScene(scene) }, [setScene])
-    return <></>;
+
+    function handleClick() {
+        const steps = sort(cubes);
+        for (let i = 0; i < steps.length; i++) {
+
+        }
+        console.log("hello world", steps);
+    }
+
+    React.useEffect(() => { setScene(scene) }, [setScene]);
+    return <>
+        <button style={{ position: 'fixed', top: 50 }} onClick={handleClick}>sort</button>
+    </>;
 }
 
 export default Bubble;
