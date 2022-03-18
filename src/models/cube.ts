@@ -1,11 +1,15 @@
 import * as THREE from 'three';
+import Container from './container';
 
-export default class Cube extends THREE.Mesh {
+export default class Cube extends THREE.Mesh implements Container {
 
-    constructor() {
+    payload: number;
+
+    constructor(payload: number) {
         const geometry = new THREE.BoxGeometry();
         const material = new THREE.MeshBasicMaterial();
         super(geometry, material)
+        this.payload = payload;
     }
 
     get x(): number {
