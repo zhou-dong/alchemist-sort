@@ -9,14 +9,19 @@ interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
 }
 
-const size = 5;
-const colors = generateColor("#659157", "#A1C084", size);
+const nums = 5;
+const colors = generateColor("#659157", "#A1C084", nums);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 const cubes: Cube[] = [];
 
-for (let i = 0; i < size; i++) {
-    const cube = new Cube().setColor(colors[i]).setWidth(1).setHeight((i + 1) * 1);
+function getRandomInt(max: number) {
+    return Math.floor(Math.random() * max);
+}
+
+for (let i = 0; i < nums; i++) {
+    const size = getRandomInt(10);
+    const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
     cube.position.setX(i - 5 + 1 * i);
     cubes[i] = cube;
     scene.add(cube);
