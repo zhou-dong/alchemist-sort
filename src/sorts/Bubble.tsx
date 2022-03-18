@@ -1,6 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
+import gsap from 'gsap';
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
+import { Action } from '../models/action';
 import Cube from '../models/cube';
 import { generateColor } from '../utils/color';
 import { camera, renderer } from '../utils/render';
@@ -10,7 +12,7 @@ interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
 }
 
-const nums = 5;
+const nums = 7;
 const colors = generateColor("#659157", "#A1C084", nums);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
@@ -76,16 +78,33 @@ controls.addEventListener('dragend', function (event) {
     startPosition = null;
 });
 
-function Bubble({ setScene }: Params) {
+const duration = 2;
 
-    function handleClick() {
-        const steps = sort(cubes);
-        for (let i = 0; i < steps.length; i++) {
+function wait(seconds: number): Promise<void> {
+    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
+};
+
+const handleClick = async () => {
+    const steps = sort(cubes);
+    for (let i = 0; i < steps.length; i++) {
+        const { a, b, action } = steps[i];
+        (a as any).material.opacity = 0.80;
+        (b as any).material.opacity = 0.80;
+        if (action === Action.Switch) {
+            const { x, y, z } = a.position;
+            gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration });
+            gsap.to(b.position, { x, y, z, duration });
+        } else {
+
 
         }
-        console.log("hello world", steps);
+        await wait(duration);
+        (a as any).material.opacity = 1;
+        (b as any).material.opacity = 1;
     }
+};
 
+function Bubble({ setScene }: Params) {
     React.useEffect(() => { setScene(scene) }, [setScene]);
     return <>
         <button style={{ position: 'fixed', top: 50 }} onClick={handleClick}>sort</button>
