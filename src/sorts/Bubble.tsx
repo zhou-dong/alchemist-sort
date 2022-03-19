@@ -91,8 +91,8 @@ const handleClick = async () => {
         (b as any).material.opacity = 0.80;
         if (exchange) {
             const { x, y, z } = a.position;
-            gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration });
-            gsap.to(b.position, { x, y, z, duration });
+            gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration, ease: "back" });
+            gsap.to(b.position, { x, y, z, duration, ease: "back" });
         }
         await wait(duration);
         (a as any).material.opacity = 1;
@@ -101,11 +101,9 @@ const handleClick = async () => {
         if (finished) {
             if (finished === a) {
                 (a as any).setColor("red");
-                // (a as any).material.opacity = 0.4;
             }
             if (finished === b) {
                 (b as any).setColor("red");
-                // (b as any).material.opacity = 0.4;
             }
         }
     }
