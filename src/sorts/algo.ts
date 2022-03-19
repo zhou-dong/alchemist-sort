@@ -1,4 +1,3 @@
-import { Action } from "../models/action";
 import Container from "../models/container"
 import { Step } from "../models/step"
 
@@ -16,11 +15,11 @@ export const sort = (arrays: Container[]): Step[] => {
             const a = arrays[y];
             const b = arrays[y + 1];
             if (a.payload > b.payload) {
-                const step: Step = { a, b, action: Action.Switch, exchange: true };
+                const step: Step = { a, b, exchange: true };
                 steps.push(step);
                 exchange(arrays, y, y + 1);
             } else {
-                const step: Step = { a, b, action: Action.None, exchange: false };
+                const step: Step = { a, b, exchange: false };
                 steps.push(step);
             }
         }

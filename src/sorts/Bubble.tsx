@@ -2,7 +2,6 @@ import React from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
-import { Action } from '../models/action';
 import Cube from '../models/cube';
 import { generateColor } from '../utils/color';
 import { camera, renderer } from '../utils/render';
