@@ -24,7 +24,7 @@ function getRandomInt(max: number) {
 for (let i = 0; i < nums; i++) {
     const size = getRandomInt(6) + 1;
     const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
-    cube.position.setX(i - 4 + 1 * i);
+    cube.position.setX(i - 6 + 1 * i);
     cubes[i] = cube;
     scene.add(cube);
 }
@@ -77,7 +77,7 @@ controls.addEventListener('dragend', function (event) {
     startPosition = null;
 });
 
-const duration = 1;
+const duration = 1.5;
 
 function wait(seconds: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, seconds * 1000));
