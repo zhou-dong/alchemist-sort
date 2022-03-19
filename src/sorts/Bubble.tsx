@@ -22,7 +22,7 @@ function getRandomInt(max: number) {
 }
 
 for (let i = 0; i < nums; i++) {
-    const size = getRandomInt(6);
+    const size = getRandomInt(6) + 1;
     const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
     cube.position.setX(i - 4 + 1 * i);
     cubes[i] = cube;
@@ -77,7 +77,7 @@ controls.addEventListener('dragend', function (event) {
     startPosition = null;
 });
 
-const duration = 2;
+const duration = 1;
 
 function wait(seconds: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, seconds * 1000));
@@ -86,20 +86,28 @@ function wait(seconds: number): Promise<void> {
 const handleClick = async () => {
     const steps = sort(cubes);
     for (let i = 0; i < steps.length; i++) {
-        const { a, b, exchange } = steps[i];
+        const { a, b, exchange, finished } = steps[i];
         (a as any).material.opacity = 0.80;
         (b as any).material.opacity = 0.80;
         if (exchange) {
             const { x, y, z } = a.position;
             gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration });
             gsap.to(b.position, { x, y, z, duration });
-        } else {
-
-
         }
         await wait(duration);
         (a as any).material.opacity = 1;
         (b as any).material.opacity = 1;
+
+        if (finished) {
+            if (finished === a) {
+                (a as any).setColor("red");
+                // (a as any).material.opacity = 0.4;
+            }
+            if (finished === b) {
+                (b as any).setColor("red");
+                // (b as any).material.opacity = 0.4;
+            }
+        }
     }
 };
 
