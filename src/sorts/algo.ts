@@ -1,7 +1,7 @@
 import Container from "../models/container"
 import { Step } from "../models/step"
 
-const exchange = (arrays: Container[], a: number, b: number): void => {
+const swap = (arrays: Container[], a: number, b: number): void => {
     const temp = arrays[a];
     arrays[a] = arrays[b];
     arrays[b] = temp;
@@ -14,14 +14,16 @@ export const sort = (arrays: Container[]): Step[] => {
         for (let y = 0; y < i; y++) {
             const a = arrays[y];
             const b = arrays[y + 1];
-            if (a.payload > b.payload) {
-                const step: Step = { a, b, exchange: true };
-                steps.push(step);
-                exchange(arrays, y, y + 1);
-            } else {
-                const step: Step = { a, b, exchange: false };
-                steps.push(step);
+            let finished = undefined;
+            let exchange = (a.payload > b.payload) ? true : false;
+            if (exchange) {
+                swap(arrays, y, y + 1);
             }
+            if (y + 1 === i) {
+                finished = exchange ? a : b;
+            }
+            const step: Step = { a, b, exchange, finished };
+            steps.push(step);
         }
     }
 
