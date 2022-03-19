@@ -3,6 +3,7 @@ import * as THREE from 'three';
 import gsap from 'gsap';
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
 import Cube from '../models/cube';
+import Sphere from '../models/sphere';
 import { generateColor } from '../utils/color';
 import { camera, renderer } from '../utils/render';
 import { sort } from './algo';
@@ -11,11 +12,12 @@ interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
 }
 
-const nums = 7;
+const nums = 6;
 const colors = generateColor("#659157", "#A1C084", nums);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 const cubes: Cube[] = [];
+const spheres: Sphere[] = [];
 
 function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
@@ -23,10 +25,15 @@ function getRandomInt(max: number) {
 
 for (let i = 0; i < nums; i++) {
     const size = getRandomInt(6) + 1;
-    const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
-    cube.position.setX(i - 6 + 1 * i);
-    cubes[i] = cube;
-    scene.add(cube);
+    // const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
+    // cube.position.setX(i - 6 + 1 * i);
+    // cubes[i] = cube;
+    // scene.add(cube);
+
+    const sphere = new Sphere(size, size / 4, colors[i]);
+    sphere.position.setX(i - 5 + 1 * i);
+    spheres.push(sphere);
+    scene.add(sphere);
 }
 
 const controls = new DragControls(scene.children, camera, renderer.domElement);
@@ -77,14 +84,14 @@ controls.addEventListener('dragend', function (event) {
     startPosition = null;
 });
 
-const duration = 1.5;
+const duration = 1;
 
 function wait(seconds: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 };
 
 const handleClick = async () => {
-    const steps = sort(cubes);
+    const steps = sort(spheres);
     for (let i = 0; i < steps.length; i++) {
         const { a, b, exchange, finished } = steps[i];
         (a as any).material.opacity = 0.80;
@@ -93,26 +100,35 @@ const handleClick = async () => {
             const { x, y, z } = a.position;
             gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration, ease: "back" });
             gsap.to(b.position, { x, y, z, duration, ease: "back" });
+        } else {
+            gsap.to(a.position, { duration, ease: "back" });
+            gsap.to(b.position, { duration, ease: "back" });
         }
+
         await wait(duration);
         (a as any).material.opacity = 1;
         (b as any).material.opacity = 1;
 
         if (finished) {
             if (finished === a) {
-                (a as any).setColor("red");
+                (a as any).setColor("lightgray");
             }
             if (finished === b) {
-                (b as any).setColor("red");
+                (b as any).setColor("lightgray");
             }
         }
     }
+};
+
+const handleTimeline = () => {
+
 };
 
 function Bubble({ setScene }: Params) {
     React.useEffect(() => { setScene(scene) }, [setScene]);
     return <>
         <button style={{ position: 'fixed', top: 50 }} onClick={handleClick}>sort</button>
+        <button style={{ position: 'fixed', top: 80 }} onClick={handleTimeline}>timeline</button>
     </>;
 }
 
