@@ -5,4 +5,5 @@ export type Step = {
     a: Container;
     b: Container;
     action: Action;
+    exchange: boolean;
 }

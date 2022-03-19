@@ -87,10 +87,10 @@ function wait(seconds: number): Promise<void> {
 const handleClick = async () => {
     const steps = sort(cubes);
     for (let i = 0; i < steps.length; i++) {
-        const { a, b, action } = steps[i];
+        const { a, b, exchange } = steps[i];
         (a as any).material.opacity = 0.80;
         (b as any).material.opacity = 0.80;
-        if (action === Action.Switch) {
+        if (exchange) {
             const { x, y, z } = a.position;
             gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration });
             gsap.to(b.position, { x, y, z, duration });
