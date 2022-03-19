@@ -12,4 +12,8 @@ export default class Sphere extends THREE.Mesh implements Container {
         this.payload = payload
     }
 
+    setColor(color: THREE.ColorRepresentation): Sphere {
+        (this.material as THREE.MeshBasicMaterial).color.set(color);
+        return this;
+    }
 }
