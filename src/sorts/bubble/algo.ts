@@ -1,5 +1,5 @@
-import Container from "../models/container"
-import { Step } from "../models/step"
+import Container from "../../models/container"
+import { Step } from "../../models/step"
 
 const swap = (arrays: Container[], a: number, b: number): void => {
     const temp = arrays[a];

@@ -2,36 +2,52 @@ import React from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
 import { DragControls } from 'three/examples/jsm/controls/DragControls'
-import Cube from '../models/cube';
-import Sphere from '../models/sphere';
-import { generateColor } from '../utils/color';
-import { camera, renderer } from '../utils/render';
+import Cube from '../../models/cube';
+import Sphere from '../../models/sphere';
+import { generateColor } from '../../utils/color';
+import { camera, renderer } from '../../utils/render';
 import { sort } from './algo';
+import Container from '../../models/container';
+import { Button } from '@mui/material';
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
 }
 
-const nums = 6;
-const colors = generateColor("#659157", "#A1C084", nums);
+const colors = generateColor("#659157", "#A1C084", 6);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 const cubes: Cube[] = [];
 const spheres: Sphere[] = [];
 
+function registeGrid() {
+    const gridHelper = new THREE.GridHelper(2000, 100, "white", "white");
+    gridHelper.position.y = - 150;
+    scene.add(gridHelper);
+}
+
+registeGrid();
+
+// const light = new THREE.PointLight(0xff0000, 1, 100);
+// light.position.set(50, 50, 50);
+// scene.add(light);
+
+// const nums: number[] = [9, 8, 7, 6, 5, 4, 3, 2, 1];
+
 function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
 
-for (let i = 0; i < nums; i++) {
+for (let i = 0; i < 6; i++) {
     const size = getRandomInt(6) + 1;
     // const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
     // cube.position.setX(i - 6 + 1 * i);
     // cubes[i] = cube;
     // scene.add(cube);
 
+    // const num = nums[i];
     const sphere = new Sphere(size, size / 4, colors[i]);
-    sphere.position.setX(i - 5 + 1 * i);
+    sphere.position.setX(i - 8 + 1 * i);
     spheres.push(sphere);
     scene.add(sphere);
 }
@@ -44,16 +60,16 @@ let collidedCube: Cube | null = null;
 controls.addEventListener("drag", function (event) {
 
     collidedCube = null;
-    cubes.map(cube => {
+    cubes.forEach(cube => {
         if (cube !== event.object) {
             (cube.material as any).opacity = 1;
         }
     });
 
     const current: Cube = event.object;
-    const others = cubes.filter(cube => cube != event.object);
+    const others = cubes.filter(cube => cube !== event.object);
 
-    others.map(other => {
+    others.forEach(other => {
         if (current.isCollison(other)) {
             (other.material as any).opacity = 0.4;
             collidedCube = other as Cube;
@@ -90,45 +106,58 @@ function wait(seconds: number): Promise<void> {
     return new Promise(resolve => setTimeout(resolve, seconds * 1000));
 };
 
+const ease = "back";
+
+const onComplete = (obj: any, finished?: Container) => {
+    obj.material.opacity = 1;
+    if (finished && finished === obj) {
+        obj.setColor("lightgray");
+    }
+};
+const onStart = (obj: any) => {
+    obj.material.opacity = 0.80;
+};
+
 const handleClick = async () => {
+
     const steps = sort(spheres);
     for (let i = 0; i < steps.length; i++) {
         const { a, b, exchange, finished } = steps[i];
-        (a as any).material.opacity = 0.80;
-        (b as any).material.opacity = 0.80;
         if (exchange) {
-            const { x, y, z } = a.position;
-            gsap.to(a.position, { x: b.position.x, y: b.position.y, z: b.position.z, duration, ease: "back" });
-            gsap.to(b.position, { x, y, z, duration, ease: "back" });
+            const temp = a.position.clone();
+            gsap.to(a.position, {
+                x: b.position.x, y: b.position.y, z: b.position.z, duration, ease,
+                onComplete: () => onComplete(a, finished),
+                onStart: () => onStart(a),
+            });
+            gsap.to(b.position, {
+                x: temp.x, y: temp.y, z: temp.z, duration, ease,
+                onComplete: () => onComplete(b, finished),
+                onStart: () => onStart(b),
+            });
         } else {
-            gsap.to(a.position, { duration, ease: "back" });
-            gsap.to(b.position, { duration, ease: "back" });
+            gsap.to((a as any).material, {
+                opacity: 1, duration,
+                onComplete: () => onComplete(a, finished),
+                onStart: () => onStart(a),
+            });
+            gsap.to((b as any).material, {
+                opacity: 1, duration,
+                onComplete: () => onComplete(b, finished),
+                onStart: () => onStart(b),
+            });
         }
 
         await wait(duration);
-        (a as any).material.opacity = 1;
-        (b as any).material.opacity = 1;
-
-        if (finished) {
-            if (finished === a) {
-                (a as any).setColor("lightgray");
-            }
-            if (finished === b) {
-                (b as any).setColor("lightgray");
-            }
-        }
     }
-};
-
-const handleTimeline = () => {
-
+    await wait(duration);
+    spheres[0].setColor("lightgray");
 };
 
 function Bubble({ setScene }: Params) {
     React.useEffect(() => { setScene(scene) }, [setScene]);
     return <>
-        <button style={{ position: 'fixed', top: 50 }} onClick={handleClick}>sort</button>
-        <button style={{ position: 'fixed', top: 80 }} onClick={handleTimeline}>timeline</button>
+        <Button variant='contained' style={{ position: 'fixed', top: 50 }} onClick={handleClick}> sort</Button>
     </>;
 }
 

@@ -3,7 +3,7 @@ import * as THREE from 'three';
 import './App.css';
 import { Link, Route, Routes } from 'react-router-dom';
 
-import Bubble from './sorts/Bubble';
+import Bubble from './sorts/bubble/Bubble';
 import { clearIntersection, raycaster, render, renderer, refreshRaycaster } from './utils/render';
 
 const Header = () => (

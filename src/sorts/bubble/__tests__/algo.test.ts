@@ -1,5 +1,5 @@
 import * as THREE from "three";
-import Container from "../../models/container";
+import Container from "../../../models/container";
 import { sort } from "../algo";
 
 test("bubble sort", () => {
