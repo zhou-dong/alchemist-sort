@@ -8,7 +8,7 @@ import { generateColor } from '../../utils/color';
 import { camera, renderer } from '../../utils/render';
 import { sort } from './algo';
 import Container from '../../models/container';
-import { Button } from '@mui/material';
+import { Button, ButtonGroup } from '@mui/material';
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -156,8 +156,26 @@ const handleClick = async () => {
 
 function Bubble({ setScene }: Params) {
     React.useEffect(() => { setScene(scene) }, [setScene]);
+
+    const [index, setIndex] = React.useState<number>(0);
+
+    const handleSwap = () => {
+
+        setIndex(index => index + 1);
+        console.log("handle swap...", index);
+    };
+
+    const handleNext = () => {
+
+        setIndex(index => index + 1);
+        console.log("handle next...", index);
+    };
+
     return <>
-        <Button variant='contained' style={{ position: 'fixed', top: 50 }} onClick={handleClick}> sort</Button>
+        <ButtonGroup style={{ position: 'fixed', top: 150 }} >
+            <Button onClick={handleSwap}>SWAP</Button>
+            <Button onClick={handleNext}>NEXT</Button>
+        </ButtonGroup>
     </>;
 }
 
