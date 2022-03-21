@@ -4,6 +4,7 @@ import './App.css';
 import { Link, Route, Routes } from 'react-router-dom';
 
 import Bubble from './sorts/bubble/Bubble';
+import Demo from "./sorts/bubble/Demo";
 import { clearIntersection, raycaster, render, renderer, refreshRaycaster } from './utils/render';
 
 const Header = () => (
@@ -15,6 +16,7 @@ const Header = () => (
 const Nav = () => (
   <nav className='navbar'>
     <Link to="/bubble">Bubble</Link>
+    <Link to="/bubble">Demo</Link>
   </nav>
 );
 
@@ -71,6 +73,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setScene={setScene} />} />
         <Route path="/bubble" element={<Bubble setScene={setScene} />} />
+        <Route path="/dmoe" element={<Demo setScene={setScene} />} />
       </Routes>
       <Nav />
     </div>
