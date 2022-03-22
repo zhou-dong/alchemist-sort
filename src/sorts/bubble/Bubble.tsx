@@ -1,11 +1,8 @@
 import React from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import { DragControls } from 'three/examples/jsm/controls/DragControls'
-import Cube from '../../models/cube';
 import Sphere from '../../models/sphere';
 import { generateColor } from '../../utils/color';
-import { camera, renderer } from '../../utils/render';
 import { sort } from './algo';
 import Container from '../../models/container';
 import { Button, ButtonGroup } from '@mui/material';
@@ -17,7 +14,6 @@ interface Params {
 const colors = generateColor("#659157", "#A1C084", 6);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
-const cubes: Cube[] = [];
 const spheres: Sphere[] = [];
 
 function registeGrid() {
@@ -28,83 +24,19 @@ function registeGrid() {
 
 registeGrid();
 
-// const light = new THREE.PointLight(0xff0000, 1, 100);
-// light.position.set(50, 50, 50);
-// scene.add(light);
-
-// const nums: number[] = [9, 8, 7, 6, 5, 4, 3, 2, 1];
-
 function getRandomInt(max: number) {
     return Math.floor(Math.random() * max);
 }
 
 for (let i = 0; i < 6; i++) {
     const size = getRandomInt(6) + 1;
-    // const cube = new Cube(size).setColor(colors[i]).setWidth(1).setHeight(size);
-    // cube.position.setX(i - 6 + 1 * i);
-    // cubes[i] = cube;
-    // scene.add(cube);
-
-    // const num = nums[i];
     const sphere = new Sphere(size, size / 4, colors[i]);
     sphere.position.setX(i - 8 + 1 * i);
     spheres.push(sphere);
     scene.add(sphere);
 }
 
-const controls = new DragControls(scene.children, camera, renderer.domElement);
-
-let startPosition: THREE.Vector3 | null = null;
-let collidedCube: Cube | null = null;
-
-controls.addEventListener("drag", function (event) {
-
-    collidedCube = null;
-    cubes.forEach(cube => {
-        if (cube !== event.object) {
-            (cube.material as any).opacity = 1;
-        }
-    });
-
-    const current: Cube = event.object;
-    const others = cubes.filter(cube => cube !== event.object);
-
-    others.forEach(other => {
-        if (current.isCollison(other)) {
-            (other.material as any).opacity = 0.4;
-            collidedCube = other as Cube;
-        }
-    });
-
-});
-
-controls.addEventListener('dragstart', function (event) {
-    startPosition = new THREE.Vector3(event.object.x, event.object.y, event.object.z);
-    event.object.material.opacity = 0.80;
-});
-
-controls.addEventListener('dragend', function (event) {
-    cubes.map(cube => (cube.material as any).opacity = 1);
-    const current: Cube = event.object as Cube;
-
-    if (startPosition) {
-        if (collidedCube) {
-            current.position.set(collidedCube.x, collidedCube.y, collidedCube.z);
-            collidedCube.position.set(startPosition.x, startPosition.y, startPosition.z);
-        } else {
-            const { x, y, z } = startPosition;
-            current.position.set(x, y, z);
-        }
-    }
-
-    startPosition = null;
-});
-
 const duration = 1;
-
-function wait(seconds: number): Promise<void> {
-    return new Promise(resolve => setTimeout(resolve, seconds * 1000));
-};
 
 const ease = "back";
 
@@ -118,12 +50,18 @@ const onStart = (obj: any) => {
     obj.material.opacity = 0.80;
 };
 
-const handleClick = async () => {
+const steps = sort(spheres);
 
-    const steps = sort(spheres);
-    for (let i = 0; i < steps.length; i++) {
-        const { a, b, exchange, finished } = steps[i];
+function Bubble({ setScene }: Params) {
+    React.useEffect(() => { setScene(scene) }, [setScene]);
+
+    const [index, setIndex] = React.useState<number>(0);
+    const [btnDisabled, setBtnDisabled] = React.useState<boolean>(false);
+
+    const handleSwap = () => {
+        const { a, b, exchange, finished } = steps[index];
         if (exchange) {
+            setBtnDisabled(true);
             const temp = a.position.clone();
             gsap.to(a.position, {
                 x: b.position.x, y: b.position.y, z: b.position.z, duration, ease,
@@ -135,7 +73,15 @@ const handleClick = async () => {
                 onComplete: () => onComplete(b, finished),
                 onStart: () => onStart(b),
             });
-        } else {
+            setIndex(index => index + 1);
+            setTimeout(() => setBtnDisabled(false), duration * 1000);
+        }
+    };
+
+    const handleNext = () => {
+        const { a, b, exchange, finished } = steps[index];
+        if (!exchange) {
+            setBtnDisabled(true);
             gsap.to((a as any).material, {
                 opacity: 1, duration,
                 onComplete: () => onComplete(a, finished),
@@ -146,35 +92,18 @@ const handleClick = async () => {
                 onComplete: () => onComplete(b, finished),
                 onStart: () => onStart(b),
             });
+
+            setIndex(index => index + 1);
+            setTimeout(() => setBtnDisabled(false), duration * 1000);
+        } else {
+            console.error("should next", index);
         }
-
-        await wait(duration);
-    }
-    await wait(duration);
-    spheres[0].setColor("lightgray");
-};
-
-function Bubble({ setScene }: Params) {
-    React.useEffect(() => { setScene(scene) }, [setScene]);
-
-    const [index, setIndex] = React.useState<number>(0);
-
-    const handleSwap = () => {
-
-        setIndex(index => index + 1);
-        console.log("handle swap...", index);
-    };
-
-    const handleNext = () => {
-
-        setIndex(index => index + 1);
-        console.log("handle next...", index);
     };
 
     return <>
         <ButtonGroup style={{ position: 'fixed', top: 150 }} >
-            <Button onClick={handleSwap}>SWAP</Button>
-            <Button onClick={handleNext}>NEXT</Button>
+            <Button onClick={handleSwap} disabled={btnDisabled}>SWAP</Button>
+            <Button onClick={handleNext} disabled={btnDisabled}>NEXT</Button>
         </ButtonGroup>
     </>;
 }
