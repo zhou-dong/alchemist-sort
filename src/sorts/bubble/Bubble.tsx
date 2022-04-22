@@ -1,7 +1,6 @@
 import React from 'react';
 import * as THREE from 'three';
 import gsap from 'gsap';
-import Sphere from '../../models/sphere';
 import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
