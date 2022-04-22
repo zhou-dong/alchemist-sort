@@ -5,9 +5,10 @@ export default class Cube extends THREE.Mesh implements Container {
 
     payload: number;
 
-    constructor(payload: number) {
-        const geometry = new THREE.BoxGeometry();
-        const material = new THREE.MeshBasicMaterial();
+    constructor(payload: number, color: THREE.ColorRepresentation, width: number, height: number, depth: number) {
+        const geometry = new THREE.BoxGeometry(width, height, depth);
+        // emissive: "#304a4b", roughness: 0.6, metalness: 0.4 
+        const material = new THREE.MeshStandardMaterial({ color });
         super(geometry, material)
         this.payload = payload;
     }
@@ -37,22 +38,7 @@ export default class Cube extends THREE.Mesh implements Container {
     }
 
     setColor(color: THREE.ColorRepresentation): Cube {
-        (this.material as THREE.MeshBasicMaterial).color.set(color);
-        return this;
-    }
-
-    setWidth(width: number): Cube {
-        this.scale.setX(width);
-        return this;
-    }
-
-    setHeight(height: number): Cube {
-        this.scale.setY(height);
-        return this;
-    }
-
-    setDepth(depth: number): Cube {
-        this.scale.setZ(depth);
+        (this.material as THREE.MeshStandardMaterial).color.set(color);
         return this;
     }
 

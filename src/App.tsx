@@ -16,7 +16,7 @@ const Header = () => (
 const Nav = () => (
   <nav className='navbar'>
     <Link to="/bubble">Bubble</Link>
-    <Link to="/bubble">Demo</Link>
+    <Link to="/demo">Demo</Link>
   </nav>
 );
 
@@ -73,7 +73,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setScene={setScene} />} />
         <Route path="/bubble" element={<Bubble setScene={setScene} />} />
-        <Route path="/dmoe" element={<Demo setScene={setScene} />} />
+        <Route path="/dmeo" element={<Demo setScene={setScene} />} />
       </Routes>
       <Nav />
     </div>

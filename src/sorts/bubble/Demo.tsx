@@ -114,6 +114,7 @@ const onComplete = (obj: any, finished?: Container) => {
         obj.setColor("lightgray");
     }
 };
+
 const onStart = (obj: any) => {
     obj.material.opacity = 0.80;
 };
@@ -157,7 +158,7 @@ const handleClick = async () => {
 function Bubble({ setScene }: Params) {
     React.useEffect(() => { setScene(scene) }, [setScene]);
     return <>
-        <Button variant='contained' style={{ position: 'fixed', top: 50 }} onClick={handleClick}> sort</Button>
+        <Button variant='contained' style={{ position: 'fixed', top: 150 }} onClick={handleClick}> sort</Button>
     </>;
 }
 
