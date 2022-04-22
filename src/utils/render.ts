@@ -20,7 +20,7 @@ const controls = new OrbitControls(camera, renderer.domElement);
 controls.enableDamping = true
 controls.rotateSpeed = 0.5;
 controls.minDistance = 10;
-controls.maxDistance = 100;
+controls.maxDistance = 20;
 controls.update();
 
 function render(scene: THREE.Scene) {
