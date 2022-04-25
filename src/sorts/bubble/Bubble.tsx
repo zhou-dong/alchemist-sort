@@ -4,7 +4,9 @@ import gsap from 'gsap';
 import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
-import { Button, ButtonGroup } from '@mui/material';
+import { Avatar, Button, ButtonGroup } from '@mui/material';
+import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
+import { pink } from '@mui/material/colors';
 import Cube from '../../models/cube';
 
 interface Params {
@@ -17,7 +19,7 @@ const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 const cubes: Cube[] = [];
 
 function registeGrid() {
-    const gridHelper = new THREE.GridHelper(200, 100, "lightgreen", "lightgreen");
+    const gridHelper = new THREE.GridHelper(200, 100, "lightgray", "lightgray");
     gridHelper.position.y = -50;
     scene.add(gridHelper);
 }
@@ -76,7 +78,7 @@ const onStart = (obj: any) => {
     obj.material.opacity = 0.80;
 };
 
-const light = new THREE.AmbientLight("#3f7861");
+const light = new THREE.PointLight("#3f7861");
 light.position.set(150, 100, 100);
 scene.add(light)
 
@@ -85,6 +87,7 @@ function Bubble({ setScene }: Params) {
 
     const [index, setIndex] = React.useState<number>(0);
     const [btnDisabled, setBtnDisabled] = React.useState<boolean>(false);
+    const [showAlert, setShowAlert] = React.useState<boolean>(false);
 
     const handleSwap = () => {
         const { a, b, exchange, finished } = steps[index];
@@ -103,6 +106,8 @@ function Bubble({ setScene }: Params) {
             });
             setIndex(index => index + 1);
             setTimeout(() => setBtnDisabled(false), duration * 1000);
+        } else {
+            handleShowAlert();
         }
     };
 
@@ -124,13 +129,48 @@ function Bubble({ setScene }: Params) {
             setIndex(index => index + 1);
             setTimeout(() => setBtnDisabled(false), duration * 1000);
         } else {
-            console.error("should next", index);
+            handleShowAlert();
         }
     };
 
+    const alertRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+
+    }, [alertRef, showAlert])
+
+    const handleShowAlert = () => {
+
+        console.log("fa bu hui", alertRef);
+
+
+        if (alertRef && alertRef.current) {
+            console.log("show");
+
+            gsap.to(alertRef.current, {
+                x: 500,
+                duration,
+                ease: "power3.out",
+                onStart: () => {
+
+                    setShowAlert(true)
+                },
+                onComplete: () => setShowAlert(false)
+            })
+        }
+
+
+    }
+
     return (
         <div style={{ width: "100%", position: 'fixed', top: 150 }}>
-            <ButtonGroup size="large" variant="contained" disabled={btnDisabled}>
+            <Avatar sx={{ width: 50, height: 50, bgcolor: "green" }}>{index}</Avatar>
+            {
+                <Avatar sx={{ bgcolor: pink[500] }} ref={alertRef}>
+                    <PriorityHighIcon />
+                </Avatar>
+            }
+            <ButtonGroup size="large" variant="contained" disabled={btnDisabled} color="success">
                 <Button onClick={handleSwap}>SWAP</Button>
                 <Button onClick={handleNext}>NEXT</Button>
             </ButtonGroup>
