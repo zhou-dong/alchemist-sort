@@ -161,7 +161,15 @@ function Bubble({ setScene }: Params) {
 
     return (
         <div style={{ width: "100%", position: 'fixed', top: 150 }}>
-            <Avatar sx={{ width: 50, height: 50, bgcolor: "green" }}>{index}</Avatar>
+            <Avatar sx={{
+                width: 50,
+                height: 50,
+                bgcolor: "green",
+                position: "absolute",
+                top: 100,
+                right: 100
+
+            }}>{index}</Avatar>
             <ButtonGroup
                 size="large"
                 variant="contained"
