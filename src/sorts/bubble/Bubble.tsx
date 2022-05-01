@@ -4,8 +4,9 @@ import gsap from 'gsap';
 import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
-import { Avatar, Button, ButtonGroup } from '@mui/material';
+import { Avatar, Button, ButtonGroup, IconButton } from '@mui/material';
 import Cube from '../../models/cube';
+import { RefreshOutlined } from '@mui/icons-material';
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -159,6 +160,10 @@ function Bubble({ setScene }: Params) {
             .to(btn, { ...base, x: "-=10", onComplete })
     }
 
+    const handleRefresh = () => {
+        console.log("refresh");
+    }
+
     return (
         <div style={{ width: "100%", position: 'fixed', top: 150 }}>
             <Avatar sx={{
@@ -172,6 +177,18 @@ function Bubble({ setScene }: Params) {
             }}>
                 {index}
             </Avatar>
+            <IconButton
+                size="large"
+                color="success"
+                style={{
+                    position: "absolute",
+                    top: 160,
+                    right: 100
+                }}
+                onClick={handleRefresh}
+            >
+                <RefreshOutlined></RefreshOutlined>
+            </IconButton>
             <ButtonGroup
                 size="large"
                 variant="contained"
