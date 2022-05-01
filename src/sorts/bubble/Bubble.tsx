@@ -5,8 +5,6 @@ import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
 import { Avatar, Button, ButtonGroup } from '@mui/material';
-import PriorityHighIcon from '@mui/icons-material/PriorityHigh';
-import { pink } from '@mui/material/colors';
 import Cube from '../../models/cube';
 
 interface Params {
@@ -26,15 +24,14 @@ function registeGrid() {
 
 registeGrid();
 
-function getRandomInt(max: number) {
-    return Math.floor(Math.random() * max);
-}
+// color: THREE.ColorRepresentation
+const material = new THREE.MeshStandardMaterial({ color: "#1BCE4B", emissive: "#304a4b", roughness: 0.6, metalness: 0.4 });
 
 for (let i = 2; i < 8; i++) {
     const size = 8 - i // getRandomInt(6) + 1;
-    const cube = new Cube(size, "#1BCE4B", 1, size, 0.4);
+    const cube = new Cube(size, material, 1, size, 0.4);
     cube.position.setX(i - 9 + 1 * i);
-    cube.position.setY(size / 2 - 3);
+    cube.position.setY(size / 2 - 5);
     cubes.push(cube);
     scene.add(cube);
 }
@@ -87,9 +84,13 @@ function Bubble({ setScene }: Params) {
 
     const [index, setIndex] = React.useState<number>(0);
     const [btnDisabled, setBtnDisabled] = React.useState<boolean>(false);
-    const [showAlert, setShowAlert] = React.useState<boolean>(false);
 
     const handleSwap = () => {
+
+        if (index >= steps.length) {
+            return;
+        }
+
         const { a, b, exchange, finished } = steps[index];
         if (exchange) {
             setBtnDisabled(true);
@@ -104,14 +105,20 @@ function Bubble({ setScene }: Params) {
                 onStart: () => onStart(b),
                 onComplete: () => onComplete(b, index, finished),
             });
+            if (index < steps.length - 1) {
+                setTimeout(() => setBtnDisabled(false), duration * 1000);
+            }
             setIndex(index => index + 1);
-            setTimeout(() => setBtnDisabled(false), duration * 1000);
         } else {
-            handleShowAlert();
+            bounce();
         }
     };
 
     const handleNext = () => {
+        if (index >= steps.length) {
+            return;
+        }
+
         const { a, b, exchange, finished } = steps[index];
         if (!exchange) {
             setBtnDisabled(true);
@@ -125,52 +132,43 @@ function Bubble({ setScene }: Params) {
                 onStart: () => onStart(b),
                 onComplete: () => onComplete(b, index, finished),
             });
-
+            if (index < steps.length - 1) {
+                setTimeout(() => setBtnDisabled(false), duration * 1000);
+            }
             setIndex(index => index + 1);
-            setTimeout(() => setBtnDisabled(false), duration * 1000);
         } else {
-            handleShowAlert();
+            bounce();
         }
     };
 
-    const alertRef = React.useRef<HTMLDivElement>(null);
+    const btnRef = React.useRef<HTMLDivElement>(null);
 
-    React.useEffect(() => {
-
-    }, [alertRef, showAlert])
-
-    const handleShowAlert = () => {
-
-        console.log("fa bu hui", alertRef);
-
-
-        if (alertRef && alertRef.current) {
-            console.log("show");
-
-            gsap.to(alertRef.current, {
-                x: 500,
-                duration,
-                ease: "power3.out",
-                onStart: () => {
-
-                    setShowAlert(true)
-                },
-                onComplete: () => setShowAlert(false)
-            })
+    const bounce = () => {
+        if (btnRef.current) {
+            bounceBtn(btnRef.current);
         }
+    }
 
+    const bounceBtn = (btn: HTMLDivElement) => {
+        const base: gsap.TweenVars = { duration: 0.04, yoyo: true, repeat: 4 };
+        const onStart = () => setBtnDisabled(true);
+        const onComplete = () => setBtnDisabled(false);
 
+        gsap.timeline()
+            .to(btn, { ...base, x: "+=10", onStart })
+            .to(btn, { ...base, x: "-=10", onComplete })
     }
 
     return (
         <div style={{ width: "100%", position: 'fixed', top: 150 }}>
             <Avatar sx={{ width: 50, height: 50, bgcolor: "green" }}>{index}</Avatar>
-            {
-                <Avatar sx={{ bgcolor: pink[500] }} ref={alertRef}>
-                    <PriorityHighIcon />
-                </Avatar>
-            }
-            <ButtonGroup size="large" variant="contained" disabled={btnDisabled} color="success">
+            <ButtonGroup
+                size="large"
+                variant="contained"
+                disabled={btnDisabled}
+                color="success"
+                ref={btnRef}
+            >
                 <Button onClick={handleSwap}>SWAP</Button>
                 <Button onClick={handleNext}>NEXT</Button>
             </ButtonGroup>
