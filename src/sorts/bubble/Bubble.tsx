@@ -169,7 +169,9 @@ function Bubble({ setScene }: Params) {
                 top: 100,
                 right: 100
 
-            }}>{index}</Avatar>
+            }}>
+                {index}
+            </Avatar>
             <ButtonGroup
                 size="large"
                 variant="contained"
