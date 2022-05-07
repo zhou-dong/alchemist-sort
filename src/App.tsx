@@ -1,24 +1,12 @@
 import React from 'react';
 import * as THREE from 'three';
 import './App.css';
-import { Link, Route, Routes } from 'react-router-dom';
+import { Route, Routes } from 'react-router-dom';
 
 import Bubble from './sorts/bubble/Bubble';
 import Demo from "./sorts/bubble/Demo";
+import Header from "./layouts/Header";
 import { clearIntersection, raycaster, render, renderer, refreshRaycaster } from './utils/render';
-
-const Header = () => (
-  <header className='header'>
-    <Link className='home' to="/">Alchemist</Link>
-  </header>
-);
-
-const Nav = () => (
-  <nav className='navbar'>
-    <Link to="/bubble">Bubble</Link>
-    <Link to="/demo">Demo</Link>
-  </nav>
-);
 
 interface HomeParams {
   setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>
@@ -75,7 +63,6 @@ function App() {
         <Route path="/bubble" element={<Bubble setScene={setScene} />} />
         <Route path="/dmeo" element={<Demo setScene={setScene} />} />
       </Routes>
-      <Nav />
     </div>
   );
 }
