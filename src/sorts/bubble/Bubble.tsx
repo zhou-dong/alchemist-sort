@@ -75,7 +75,7 @@ const onStart = (obj: any) => {
 
 const light = new THREE.PointLight("#3f7861");
 light.position.set(150, 100, 100);
-// scene.add(light)
+// scene.add(light);
 
 const useStyles = makeStyles(() => createStyles({
     btns: {
