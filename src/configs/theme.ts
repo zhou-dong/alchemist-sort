@@ -1,4 +1,4 @@
-import { green } from '@mui/material/colors';
+import { green, grey } from '@mui/material/colors';
 import { createTheme } from '@mui/material/styles';
 
 const theme = createTheme({
@@ -7,6 +7,9 @@ const theme = createTheme({
             main: green[500],
             contrastText: "white"
         },
+        secondary: {
+            main: grey[500],
+        }
     },
     components: {
         MuiTab: {
@@ -17,7 +20,7 @@ const theme = createTheme({
                     },
                     "&.Mui-selected": {
                         backgroundColor: "white",
-                        color: green[500],
+                        color: "black",
                     },
                     "&.Mui-disabled": {
                         color: "gray",
