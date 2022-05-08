@@ -1,6 +1,5 @@
 import React from 'react';
 import * as THREE from 'three';
-import './App.css';
 import { Route, Routes } from 'react-router-dom';
 
 import Bubble from './sorts/bubble/Bubble';
@@ -13,10 +12,13 @@ interface HomeParams {
 }
 
 const homeScene = new THREE.Scene();
+
 function Home({ setScene }: HomeParams) {
+
   React.useEffect(() => {
     setScene(homeScene);
   }, [])
+
   return (<></>);
 }
 
@@ -55,7 +57,7 @@ function App() {
   animate();
 
   return (
-    <div className="App">
+    <>
       <Header />
       <div ref={ref}></div>
       <Routes>
@@ -63,7 +65,7 @@ function App() {
         <Route path="/bubble-sort" element={<Bubble setScene={setScene} />} />
         <Route path="/demo" element={<Demo setScene={setScene} />} />
       </Routes>
-    </div>
+    </>
   );
 }
 
