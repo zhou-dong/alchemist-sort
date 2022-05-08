@@ -10,6 +10,7 @@ import Steps from "../../components/Steps";
 import bounce from "../../utils/bounce";
 import SwapOrNext from "../../components/SwapOrNext";
 import Refresh from "../../components/Refresh";
+import { Step } from '../../models/step';
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -39,21 +40,21 @@ const ease = "back";
 
 const steps = sort(cubes);
 
-const updateNext = (index: number) => {
+const updateNext = (index: number, steps: Step[]) => {
     const next = index + 1;
     const firstStep = steps[next];
     (firstStep.a as any).material.opacity = 0.60;
     (firstStep.b as any).material.opacity = 0.60;
 }
 
-updateNext(-1);
+// updateNext(-1);
 
-const onComplete = (obj: any, index: number, finished?: Container) => {
+const onComplete = (obj: any, index: number, steps: Step[], finished?: Container) => {
 
     obj.material.opacity = 1;
 
     if (index < steps.length - 1) {
-        updateNext(index);
+        updateNext(index, steps);
     } else {
         if (index === steps.length - 1) {
             const last = steps[index];
@@ -104,12 +105,12 @@ function Bubble({ setScene }: Params) {
             gsap.to(a.position, {
                 x: b.position.x, duration, ease,
                 onStart: () => onStart(a),
-                onComplete: () => onComplete(a, index, finished),
+                onComplete: () => onComplete(a, index, steps, finished),
             });
             gsap.to(b.position, {
                 x: temp.x, duration, ease,
                 onStart: () => onStart(b),
-                onComplete: () => onComplete(b, index, finished),
+                onComplete: () => onComplete(b, index, steps, finished),
             });
             if (index < steps.length - 1) {
                 setTimeout(() => setBtnDisabled(false), duration * 1000);
@@ -131,12 +132,12 @@ function Bubble({ setScene }: Params) {
             gsap.to((a as any).material, {
                 opacity: 1, duration,
                 onStart: () => onStart(a),
-                onComplete: () => onComplete(a, index, finished),
+                onComplete: () => onComplete(a, index, steps, finished),
             });
             gsap.to((b as any).material, {
                 opacity: 1, duration,
                 onStart: () => onStart(b),
-                onComplete: () => onComplete(b, index, finished),
+                onComplete: () => onComplete(b, index, steps, finished),
             });
             if (index < steps.length - 1) {
                 setTimeout(() => setBtnDisabled(false), duration * 1000);
