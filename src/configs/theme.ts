@@ -8,6 +8,24 @@ const theme = createTheme({
             contrastText: "white"
         },
     },
+    components: {
+        MuiTab: {
+            styleOverrides: {
+                root: {
+                    "&.MuiTab-root": {
+                        color: "white"
+                    },
+                    "&.Mui-selected": {
+                        backgroundColor: "white",
+                        color: green[500],
+                    },
+                    "&.Mui-disabled": {
+                        color: "gray",
+                    }
+                }
+            }
+        }
+    }
 });
 
 export default theme;

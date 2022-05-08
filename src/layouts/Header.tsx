@@ -1,6 +1,4 @@
-import * as React from 'react';
 import { AppBar, Tab, Tabs } from "@mui/material";
-import { makeStyles } from "@mui/styles";
 import { Link, matchPath, useLocation } from 'react-router-dom';
 
 function useRouteMatch(patterns: readonly string[]) {
@@ -17,31 +15,16 @@ function useRouteMatch(patterns: readonly string[]) {
     return null;
 }
 
-const useStyles = makeStyles({
-
-    menuButton: {
-        fontWeight: 700,
-        size: "18px",
-        marginLeft: "38px",
-    },
-    toolbar: {
-        display: "flex",
-        justifyContent: "space-between",
-    },
-});
-
 function Header() {
-    const { menuButton, toolbar } = useStyles();
 
     const routeMatch = useRouteMatch(['/bubble', '/counting', '/selection']);
     const currentTab = routeMatch?.pattern?.path;
 
-
     const navs = (
-        <Tabs value={currentTab} style={{}} textColor="inherit" >
+        <Tabs value={currentTab} TabIndicatorProps={{ style: { backgroundColor: "white" } }} >
             <Tab component={Link} label="Bubble Sort" value="/bubble" to="/bubble" />
             <Tab component={Link} label="Sort 2" value="/counting" to="/counting" />
-            <Tab component={Link} label="sort 3" value="/selection" to="/selection" />
+            <Tab component={Link} label="sort 3" value="/selection" to="/selection" disabled />
         </Tabs>
     );
 

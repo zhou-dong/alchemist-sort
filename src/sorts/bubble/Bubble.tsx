@@ -179,7 +179,6 @@ function Bubble({ setScene }: Params) {
             </Avatar>
             <IconButton
                 size="large"
-                color="success"
                 style={{
                     position: "absolute",
                     top: 160,
@@ -193,7 +192,6 @@ function Bubble({ setScene }: Params) {
                 size="large"
                 variant="contained"
                 disabled={btnDisabled}
-                color="success"
                 ref={btnRef}
             >
                 <Button onClick={handleSwap}>SWAP</Button>
