@@ -4,13 +4,12 @@ import gsap from 'gsap';
 import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
-import { IconButton } from '@mui/material';
 import Cube from '../../models/cube';
-import { RefreshOutlined } from '@mui/icons-material';
 import { createStyles, makeStyles } from '@mui/styles';
 import Steps from "../../components/Steps";
 import bounce from "../../utils/bounce";
 import SwapOrNext from "../../components/SwapOrNext";
+import Refresh from "../../components/Refresh";
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -84,12 +83,6 @@ const useStyles = makeStyles(() => createStyles({
         bottom: 200,
         width: "100%"
     },
-    refresh: {
-        position: "fixed",
-        bottom: 80,
-        right: 40,
-        border: "2px solid lightgrey",
-    }
 }));
 
 function Bubble({ setScene }: Params) {
@@ -172,16 +165,6 @@ function Bubble({ setScene }: Params) {
 
     const classes = useStyles();
 
-    const refresh = (
-        <IconButton
-            size="large"
-            className={classes.refresh}
-            onClick={handleRefresh}
-        >
-            <RefreshOutlined />
-        </IconButton>
-    );
-
     const btns = (
         <div className={classes.btns}>
             <div ref={btnRef}>
@@ -197,7 +180,7 @@ function Bubble({ setScene }: Params) {
     return (
         <>
             <Steps steps={index} />
-            {refresh}
+            <Refresh handleRefresh={handleRefresh} />
             {btns}
         </>
     );
