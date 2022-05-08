@@ -15,14 +15,14 @@ function useRouteMatch(patterns: readonly string[]) {
     return null;
 }
 
-function Header() {
+export default function () {
 
     const routeMatch = useRouteMatch(['/bubble', '/counting', '/selection']);
     const currentTab = routeMatch?.pattern?.path;
 
     const navs = (
         <Tabs value={currentTab} TabIndicatorProps={{ style: { backgroundColor: "white" } }} >
-            <Tab component={Link} label="Bubble Sort" value="/bubble" to="/bubble" />
+            <Tab component={Link} label="Bubble Sort" value="/bubble-sort" to="/bubble-sort" />
             <Tab component={Link} label="Sort 2" value="/counting" to="/counting" />
             <Tab component={Link} label="sort 3" value="/selection" to="/selection" disabled />
         </Tabs>
@@ -35,6 +35,3 @@ function Header() {
     );
 
 }
-
-export default Header;
-
