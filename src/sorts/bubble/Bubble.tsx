@@ -100,7 +100,6 @@ function Bubble({ setScene }: Params) {
     const [btnDisabled, setBtnDisabled] = React.useState<boolean>(false);
 
     const handleSwap = () => {
-
         if (index >= steps.length) {
             return;
         }
