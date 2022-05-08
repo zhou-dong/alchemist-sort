@@ -4,11 +4,12 @@ import { createTheme } from '@mui/material/styles';
 const theme = createTheme({
     palette: {
         primary: {
-            main: green[500],
+            main: grey[500],
             contrastText: "white"
         },
         secondary: {
-            main: grey[500],
+            main: green[500],
+            contrastText: "white"
         }
     },
     components: {
@@ -20,7 +21,7 @@ const theme = createTheme({
                     },
                     "&.Mui-selected": {
                         backgroundColor: "white",
-                        color: "black",
+                        color: grey[600],
                     },
                     "&.Mui-disabled": {
                         color: "gray",

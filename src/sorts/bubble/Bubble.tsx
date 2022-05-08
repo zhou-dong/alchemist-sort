@@ -4,9 +4,10 @@ import gsap from 'gsap';
 import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
-import { Avatar, Button, ButtonGroup, IconButton } from '@mui/material';
+import { Button, ButtonGroup, IconButton, Typography } from '@mui/material';
 import Cube from '../../models/cube';
 import { RefreshOutlined } from '@mui/icons-material';
+import { createStyles, makeStyles } from '@mui/styles';
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -17,22 +18,15 @@ const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 const cubes: Cube[] = [];
 
-function registeGrid() {
-    const gridHelper = new THREE.GridHelper(200, 100, "lightgray", "lightgray");
-    gridHelper.position.y = -50;
-    scene.add(gridHelper);
-}
-
-registeGrid();
-
 // color: THREE.ColorRepresentation
-const material = new THREE.MeshStandardMaterial({ color: "#1BCE4B", emissive: "#304a4b", roughness: 0.6, metalness: 0.4 });
+// const material = new THREE.MeshStandardMaterial({ color: "grey", emissive: "grey", roughness: 0.1, metalness: 1.4 });
+const material = new THREE.MeshStandardMaterial({ color: "grey" });
 
 for (let i = 2; i < 8; i++) {
     const size = 8 - i // getRandomInt(6) + 1;
     const cube = new Cube(size, material, 1, size, 0.4);
     cube.position.setX(i - 9 + 1 * i);
-    cube.position.setY(size / 2 - 5);
+    cube.position.setY(size / 2 - 2.2);
     cubes.push(cube);
     scene.add(cube);
 }
@@ -78,9 +72,30 @@ const onStart = (obj: any) => {
 
 const light = new THREE.PointLight("#3f7861");
 light.position.set(150, 100, 100);
-scene.add(light)
+// scene.add(light)
+
+const useStyles = makeStyles(() => createStyles({
+    btns: {
+        textAlign: "center",
+        position: "fixed",
+        bottom: 200,
+        width: "100%"
+    },
+    steps: {
+        position: "fixed",
+        top: 70,
+        right: 40,
+    },
+    refresh: {
+        position: "fixed",
+        bottom: 80,
+        right: 40,
+        border: "2px solid lightgrey",
+    }
+}));
 
 function Bubble({ setScene }: Params) {
+
     React.useEffect(() => { setScene(scene) }, [setScene]);
 
     const [index, setIndex] = React.useState<number>(0);
@@ -164,40 +179,50 @@ function Bubble({ setScene }: Params) {
         console.log("refresh");
     }
 
-    return (
-        <div style={{ width: "100%", position: 'fixed', top: 150 }}>
-            <Avatar sx={{
-                width: 50,
-                height: 50,
-                bgcolor: "green",
-                position: "absolute",
-                top: 100,
-                right: 100
+    const classes = useStyles();
 
-            }}>
-                {index}
-            </Avatar>
-            <IconButton
-                size="large"
-                style={{
-                    position: "absolute",
-                    top: 160,
-                    right: 100
-                }}
-                onClick={handleRefresh}
-            >
-                <RefreshOutlined></RefreshOutlined>
-            </IconButton>
+    const displaySteps = (
+        <div className={classes.steps}>
+            <Typography color="primary" variant='button' style={{ paddingLeft: "5px" }}>
+                Steps
+            </Typography>
+            <Typography color="primary" variant="h3" style={{ marginTop: "-12px" }}>
+                {(index < 10) ? "0" : ""}{index}
+            </Typography>
+        </div>
+    );
+
+    const refresh = (
+        <IconButton
+            size="large"
+            className={classes.refresh}
+            onClick={handleRefresh}
+        >
+            <RefreshOutlined />
+        </IconButton>
+    );
+
+    const btns = (
+        <div className={classes.btns}>
             <ButtonGroup
-                size="medium"
+                size="large"
                 variant="contained"
                 disabled={btnDisabled}
                 ref={btnRef}
+                color="secondary"
             >
                 <Button onClick={handleSwap}>SWAP</Button>
                 <Button onClick={handleNext}>NEXT</Button>
             </ButtonGroup>
         </div>
+    )
+
+    return (
+        <>
+            {displaySteps}
+            {refresh}
+            {btns}
+        </>
     );
 }
 

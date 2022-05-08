@@ -36,7 +36,7 @@ export default function () {
     );
 
     return (
-        <AppBar color="secondary" elevation={0}>
+        <AppBar elevation={0}>
             {navs}
         </AppBar>
     );
