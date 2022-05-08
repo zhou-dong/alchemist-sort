@@ -8,6 +8,7 @@ import { Button, ButtonGroup, IconButton, Typography } from '@mui/material';
 import Cube from '../../models/cube';
 import { RefreshOutlined } from '@mui/icons-material';
 import { createStyles, makeStyles } from '@mui/styles';
+import Steps from "../../components/Steps";
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -80,11 +81,6 @@ const useStyles = makeStyles(() => createStyles({
         position: "fixed",
         bottom: 200,
         width: "100%"
-    },
-    steps: {
-        position: "fixed",
-        top: 70,
-        right: 40,
     },
     refresh: {
         position: "fixed",
@@ -181,16 +177,6 @@ function Bubble({ setScene }: Params) {
 
     const classes = useStyles();
 
-    const displaySteps = (
-        <div className={classes.steps}>
-            <Typography color="primary" variant='button' style={{ paddingLeft: "5px" }}>
-                Steps
-            </Typography>
-            <Typography color="primary" variant="h3" style={{ marginTop: "-12px" }}>
-                {(index < 10) ? "0" : ""}{index}
-            </Typography>
-        </div>
-    );
 
     const refresh = (
         <IconButton
@@ -206,7 +192,7 @@ function Bubble({ setScene }: Params) {
         <div className={classes.btns}>
             <ButtonGroup
                 size="large"
-                variant="contained"
+                // variant="contained"
                 disabled={btnDisabled}
                 ref={btnRef}
                 color="secondary"
@@ -219,7 +205,7 @@ function Bubble({ setScene }: Params) {
 
     return (
         <>
-            {displaySteps}
+            <Steps steps={index} />
             {refresh}
             {btns}
         </>
