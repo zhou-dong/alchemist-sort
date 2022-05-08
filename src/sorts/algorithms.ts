@@ -33,6 +33,10 @@ const algorithms: Algorithm[] = [
         name: "Bucket Sort",
         path: "/bucket-sort"
     },
+    {
+        name: "Radix Sort",
+        path: "/radix-sort"
+    }
 ]
 
 export default algorithms;
