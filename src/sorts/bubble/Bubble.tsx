@@ -189,7 +189,7 @@ function Bubble({ setScene }: Params) {
                 <RefreshOutlined></RefreshOutlined>
             </IconButton>
             <ButtonGroup
-                size="large"
+                size="medium"
                 variant="contained"
                 disabled={btnDisabled}
                 ref={btnRef}
