@@ -4,11 +4,13 @@ import gsap from 'gsap';
 import { generateColor } from '../../utils/color';
 import { sort } from './algo';
 import Container from '../../models/container';
-import { Button, ButtonGroup, IconButton, Typography } from '@mui/material';
+import { IconButton } from '@mui/material';
 import Cube from '../../models/cube';
 import { RefreshOutlined } from '@mui/icons-material';
 import { createStyles, makeStyles } from '@mui/styles';
 import Steps from "../../components/Steps";
+import bounce from "../../utils/bounce";
+import SwapOrNext from "../../components/SwapOrNext";
 
 interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
@@ -122,7 +124,7 @@ function Bubble({ setScene }: Params) {
             }
             setIndex(index => index + 1);
         } else {
-            bounce();
+            bounceBtns();
         }
     };
 
@@ -149,34 +151,27 @@ function Bubble({ setScene }: Params) {
             }
             setIndex(index => index + 1);
         } else {
-            bounce();
+            bounceBtns();
         }
     };
 
     const btnRef = React.useRef<HTMLDivElement>(null);
 
-    const bounce = () => {
+    const bounceBtns = () => {
         if (btnRef.current) {
-            bounceBtn(btnRef.current);
+            bounce({
+                div: btnRef.current,
+                onStart: () => setBtnDisabled(true),
+                onComplete: () => setBtnDisabled(false)
+            });
         }
     }
 
-    const bounceBtn = (btn: HTMLDivElement) => {
-        const base: gsap.TweenVars = { duration: 0.04, yoyo: true, repeat: 4 };
-        const onStart = () => setBtnDisabled(true);
-        const onComplete = () => setBtnDisabled(false);
-
-        gsap.timeline()
-            .to(btn, { ...base, x: "+=10", onStart })
-            .to(btn, { ...base, x: "-=10", onComplete })
-    }
-
     const handleRefresh = () => {
-        console.log("refresh");
+        setIndex(0);
     }
 
     const classes = useStyles();
-
 
     const refresh = (
         <IconButton
@@ -190,18 +185,15 @@ function Bubble({ setScene }: Params) {
 
     const btns = (
         <div className={classes.btns}>
-            <ButtonGroup
-                size="large"
-                // variant="contained"
-                disabled={btnDisabled}
-                ref={btnRef}
-                color="secondary"
-            >
-                <Button onClick={handleSwap}>SWAP</Button>
-                <Button onClick={handleNext}>NEXT</Button>
-            </ButtonGroup>
+            <div ref={btnRef}>
+                <SwapOrNext
+                    disabled={btnDisabled}
+                    handleNext={handleNext}
+                    handleSwap={handleSwap}
+                />
+            </div>
         </div>
-    )
+    );
 
     return (
         <>
