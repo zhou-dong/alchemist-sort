@@ -60,8 +60,8 @@ function App() {
       <div ref={ref}></div>
       <Routes>
         <Route path="/" element={<Home setScene={setScene} />} />
-        <Route path="/bubble" element={<Bubble setScene={setScene} />} />
-        <Route path="/dmeo" element={<Demo setScene={setScene} />} />
+        <Route path="/bubble-sort" element={<Bubble setScene={setScene} />} />
+        <Route path="/demo" element={<Demo setScene={setScene} />} />
       </Routes>
     </div>
   );
