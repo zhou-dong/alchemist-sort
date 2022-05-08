@@ -1,5 +1,7 @@
 import { AppBar, Tab, Tabs } from "@mui/material";
 import { Link, matchPath, useLocation } from 'react-router-dom';
+import Algorithm from "../models/algorithm";
+import algorithms from "../sorts/algorithms";
 
 function useRouteMatch(patterns: readonly string[]) {
     const { pathname } = useLocation();
@@ -15,16 +17,26 @@ function useRouteMatch(patterns: readonly string[]) {
     return null;
 }
 
+const buildTable = (index: number, { name, path }: Algorithm) => (
+    <Tab key={index} component={Link} label={name} value={path} to={path} />
+);
+
 export default function () {
 
-    const routeMatch = useRouteMatch(['/bubble', '/counting', '/selection']);
+    const paths: string[] = algorithms.map(algorithm => algorithm.path);
+    const tabs = algorithms.map((algorithm, index) => buildTable(index, algorithm));
+
+    const routeMatch = useRouteMatch(paths);
     const currentTab = routeMatch?.pattern?.path;
 
     const navs = (
-        <Tabs value={currentTab} TabIndicatorProps={{ style: { backgroundColor: "white" } }} >
-            <Tab component={Link} label="Bubble Sort" value="/bubble-sort" to="/bubble-sort" />
-            <Tab component={Link} label="Sort 2" value="/counting" to="/counting" />
-            <Tab component={Link} label="sort 3" value="/selection" to="/selection" disabled />
+        <Tabs
+            value={currentTab}
+            variant="scrollable"
+            scrollButtons="auto"
+            TabIndicatorProps={{ style: { backgroundColor: "white" } }}
+        >
+            {tabs}
         </Tabs>
     );
 
@@ -33,5 +45,4 @@ export default function () {
             {navs}
         </AppBar>
     );
-
 }
