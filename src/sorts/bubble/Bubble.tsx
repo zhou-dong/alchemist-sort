@@ -23,7 +23,7 @@ const cubes: Cube[] = [];
 
 // color: THREE.ColorRepresentation
 // const material = new THREE.MeshStandardMaterial({ color: "grey", emissive: "grey", roughness: 0.1, metalness: 1.4 });
-const material = new THREE.MeshStandardMaterial({ color: "grey" });
+const material = new THREE.MeshStandardMaterial({ color: "green", emissive: "green", });
 
 for (let i = 2; i < 8; i++) {
     const size = 8 - i // getRandomInt(6) + 1;
