@@ -31,7 +31,7 @@ const Home = ({ setScene }: Params) => {
                 Sorting
             </Typography>
         </Center>
-    )
+    );
 };
 
 export default Home;
