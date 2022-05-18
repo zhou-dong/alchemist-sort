@@ -2,6 +2,10 @@ import Algorithm from "../models/algorithm";
 
 const algorithms: Algorithm[] = [
     {
+        name: "Home",
+        path: "/"
+    },
+    {
         name: "Bubble Sort",
         path: "/bubble-sort"
     },
