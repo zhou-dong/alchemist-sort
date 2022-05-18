@@ -1,0 +1,15 @@
+{
+  "files": {
+    "main.css": "/alchemist-sort/static/css/main.e6c13ad2.css",
+    "main.js": "/alchemist-sort/static/js/main.6b8b8691.js",
+    "static/js/787.2108ee08.chunk.js": "/alchemist-sort/static/js/787.2108ee08.chunk.js",
+    "index.html": "/alchemist-sort/index.html",
+    "main.e6c13ad2.css.map": "/alchemist-sort/static/css/main.e6c13ad2.css.map",
+    "main.6b8b8691.js.map": "/alchemist-sort/static/js/main.6b8b8691.js.map",
+    "787.2108ee08.chunk.js.map": "/alchemist-sort/static/js/787.2108ee08.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.e6c13ad2.css",
+    "static/js/main.6b8b8691.js"
+  ]
+}
