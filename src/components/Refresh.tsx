@@ -1,29 +1,16 @@
 import { RefreshOutlined } from "@mui/icons-material";
-import { IconButton } from "@mui/material";
-import { createStyles, makeStyles } from "@mui/styles";
+import { IconButton, Toolbar } from "@mui/material";
 
 interface Props {
     handleRefresh: () => any;
 }
 
-const useStyles = makeStyles(() => createStyles({
-    refresh: {
-        position: "fixed",
-        bottom: 80,
-        right: 40,
-        border: "2px solid lightgrey",
-    }
-}));
-
 export default function ({ handleRefresh }: Props) {
-    const { refresh } = useStyles();
     return (
-        <IconButton
-            size="large"
-            className={refresh}
-            onClick={handleRefresh}
-        >
-            <RefreshOutlined />
-        </IconButton>
+        <Toolbar sx={{ position: "fixed", bottom: 0, right: 0 }}>
+            <IconButton onClick={handleRefresh} size="large" color="secondary">
+                <RefreshOutlined />
+            </IconButton>
+        </Toolbar>
     );
 }
