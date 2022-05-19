@@ -7,10 +7,11 @@ interface Props {
     onStart?: () => any;
     onComplete?: () => any;
 }
-
-export default function ({ div, onStart, onComplete }: Props) {
+const bounce = ({ div, onStart, onComplete }: Props) => {
 
     gsap.timeline()
         .to(div, { ...baseVars, x: "+=10", onStart })
         .to(div, { ...baseVars, x: "-=10", onComplete })
 }
+
+export default bounce;

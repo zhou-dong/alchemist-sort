@@ -16,7 +16,7 @@ function useRouteMatch(patterns: readonly string[]) {
     return null;
 }
 
-export default function () {
+const Header = () => {
 
     const paths: string[] = algorithms.map(algorithm => algorithm.path);
     const tabs = algorithms.map(({ name, path }, index) => <Tab key={index} component={Link} label={name} value={path} to={path} />);
@@ -41,3 +41,5 @@ export default function () {
         </AppBar>
     );
 }
+
+export default Header;
