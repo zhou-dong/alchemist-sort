@@ -6,7 +6,8 @@ export default class Cube extends THREE.Mesh implements Container {
     payload: number;
 
     constructor(payload: number, material: THREE.Material, width: number, height: number, depth: number) {
-        const geometry = new THREE.BoxGeometry(width, height, depth);
+        // const geometry = new THREE.BoxGeometry(width, height, depth);
+        const geometry = new THREE.CylinderGeometry(width, width, height, 32);
         super(geometry, material)
         this.payload = payload;
     }

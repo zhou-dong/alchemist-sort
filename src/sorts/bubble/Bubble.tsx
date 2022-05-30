@@ -16,20 +16,22 @@ interface Params {
     setScene: React.Dispatch<React.SetStateAction<THREE.Scene | undefined>>;
 }
 
-const colors = generateColor("#FF5733", "#ADC323", 6);
+const colors = generateColor("#ADC323", "#FF5733", 6);
 const scene = new THREE.Scene(); //React.useMemo(() => new THREE.Scene(), []);
 
 const cubes: Cube[] = [];
 
 // color: THREE.ColorRepresentation
 // const material = new THREE.MeshStandardMaterial({ color: "grey", emissive: "grey", roughness: 0.1, metalness: 1.4 });
-const material = new THREE.MeshStandardMaterial({ color: colors[0], emissive: "green" });
+// let material = new THREE.MeshStandardMaterial({ color: colors[0], emissive: "green" });
 
 for (let i = 2; i < 8; i++) {
+    let material = new THREE.MeshBasicMaterial({ color: colors[i - 2] });
     const size = 8 - i // getRandomInt(6) + 1;
     const cube = new Cube(size, material, 1, size, 0.4);
-    cube.position.setX(i - 9 + 1 * i);
+    cube.position.setX(i - 9 + 2 * i);
     cube.position.setY(size / 2 - 2.2);
+    cube.position.setZ(-6);
     cubes.push(cube);
     scene.add(cube);
 }
@@ -73,9 +75,9 @@ const onStart = (obj: any) => {
     obj.material.opacity = 0.80;
 };
 
-const light = new THREE.PointLight("#3f7861");
+const light = new THREE.AmbientLight("#3f7861");
 light.position.set(150, 100, 100);
-// scene.add(light);
+scene.add(light);
 
 const useStyles = makeStyles(() => createStyles({
     btns: {

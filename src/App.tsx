@@ -7,6 +7,7 @@ import Demo from "./sorts/bubble/Demo";
 import Header from "./layouts/Header";
 import { render, renderer } from './utils/render';
 import Home from './layouts/Home';
+import BubbleAnimation from './sorts/bubble/Animation';
 
 function App() {
 
@@ -36,6 +37,7 @@ function App() {
       <Routes>
         <Route path="/" element={<Home setScene={setScene} />} />
         <Route path="/bubble-sort" element={<Bubble setScene={setScene} />} />
+        <Route path='/selection-sort' element={<BubbleAnimation setScene={setScene} />} />
         <Route path="/demo" element={<Demo setScene={setScene} />} />
       </Routes>
     </>
